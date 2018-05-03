@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+    function dude()
+    {
+    var theUrl="http://ec2-52-11-135-143.us-west-2.compute.amazonaws.com:3000/polls/pic_submit/";
+    console.log(theUrl);
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("POST",theUrl , true);
+
+    var formData = new FormData();
+    formData.append("pic1",document.getElementById("image-file1").files[0]);
+    formData.append("pic2",document.getElementById("image-file2").files[0]);
+    formData.append("pic3",document.getElementById("image-file3").files[0]);
+    console.log(document.getElementById("base").value);
+    console.log(document.getElementById("output").value);
+    formData.append("base",document.getElementById("base").value);
+    formData.append("output",document.getElementById("output").value);
+    console.log(formData);
+
+
+    xmlHttp.onload = function () {
+    if (xmlHttp.readyState === xmlHttp.DONE) {
+        if (xmlHttp.status === 200) {
+console.log("hi");
+            console.log(xmlHttp.response);
+            console.log("../"+document.getElementById("output").value)
+console.log("data:image/png;base64,"+xmlHttp.response.replace("image/png", "image/octet-stream"));
+
+            document.getElementById("pic").src="data:image/png;base64,"+xmlHttp.response
+        }
+        else{
+            console.log("failure")
+            
+        }
+    }
+};
+xmlHttp.send(formData);
+
+    //console.log(xmlHttp[0])
+    //xmlHttp.send("William Jones");
+    }
+</script>
+<a href="https://github.com/you"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on GitHub"></a>
+<input id="image-file1" type="file" />
+<input id="image-file2" type="file" />
+<input id="image-file3" type="file" />
+<button id="clicky" onclick="dude()">Submit </button>
+Base <input type="text" name="FirstName" value="0" id="base"><br>
+Output_name <input type="text" name="LastName" value="mypic.png" id="output"><br>
+</form>
+<img id="pic" src="https://d50m6q67g4bn3.cloudfront.net/teams_avatars/51f79653-c4c9-497a-a27d-39f5f1067b38_1450369795410">
+
+
+
+</body>
+</html>
